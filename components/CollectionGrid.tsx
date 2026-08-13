@@ -25,33 +25,32 @@ const collections = [
 ];
 
 export default function CollectionGrid() {
-  const sectionRef = useRef(null);
-  const imageRefs = useRef([]);
+  const sectionRef = useRef<HTMLElement | null>(null);
+
+  const imageRefs = useRef<(HTMLImageElement | null)[]>([]);
 
   useEffect(() => {
     const handleScroll = () => {
       if (!sectionRef.current) return;
 
-      const section = sectionRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
 
       imageRefs.current.forEach((image) => {
         if (!image) return;
 
-        const rect = image.parentElement.getBoundingClientRect();
+        const parent = image.parentElement;
 
-        if (
-          rect.bottom < 0 ||
-          rect.top > windowHeight
-        ) {
+        if (!parent) return;
+
+        const rect = parent.getBoundingClientRect();
+
+        if (rect.bottom < 0 || rect.top > windowHeight) {
           return;
         }
 
-        const center =
-          rect.top + rect.height / 2;
+        const center = rect.top + rect.height / 2;
 
-        const distance =
-          center - windowHeight / 2;
+        const distance = center - windowHeight / 2;
 
         const movement = distance * -0.08;
 
@@ -78,99 +77,60 @@ export default function CollectionGrid() {
       ref={sectionRef}
       className="grid gap-5 md:grid-cols-3"
     >
-     {collections.map((collection, index) => (
-  <motion.div
-    key={collection.title}
-    initial={{
-      opacity: 0,
-      y: 60,
-      scale: 0.95,
-    }}
-    whileInView={{
-      opacity: 1,
-      y: 0,
-      scale: 1,
-    }}
-    transition={{
-      duration: 0.8,
-      delay: index * 0.2,
-      ease: "easeOut",
-    }}
-    viewport={{
-      once: true,
-      amount: 0.2,
-    }}
-    className={`collection-card ${
-      index === 1 ? "md:mt-20" : ""
-    }`}
-  >
-    <div className="collection-image-wrapper relative aspect-[4/5] overflow-hidden">
-      
-      <img
-        ref={(el) => {
-          imageRefs.current[index] = el;
-        }}
-        src={collection.image}
-        alt={collection.title}
-        className="collection-image"
-      />
+      {collections.map((collection, index) => (
+        <motion.div
+          key={collection.title}
+          initial={{
+            opacity: 0,
+            y: 50,
+            scale: 0.95,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+            scale: 1,
+          }}
+          transition={{
+            duration: 0.8,
+            delay: index * 0.2,
+            ease: "easeOut",
+          }}
+          viewport={{
+            once: true,
+            amount: 0.2,
+          }}
+          className={`collection-card ${
+            index === 1 ? "md:mt-20" : ""
+          }`}
+        >
+          <div className="collection-image-wrapper relative aspect-[4/5] overflow-hidden">
+            <img
+              ref={(el) => {
+                imageRefs.current[index] = el;
+              }}
+              src={collection.image}
+              alt={collection.title}
+              className="collection-image"
+            />
 
-      <div className="pointer-events-none absolute inset-0 bg-black/10" />
+            <div className="pointer-events-none absolute inset-0 bg-black/10" />
 
-     <div className="pointer-events-none absolute inset-x-0 bottom-0 p-7 text-white">
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 p-7 text-white">
+              <p className="mb-2 text-[10px] uppercase tracking-[0.25em]">
+                Collection
+              </p>
 
-  <motion.p
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{
-      duration: 0.6,
-      delay: index * 0.2 + 0.3,
-    }}
-    viewport={{ once: true }}
-    className="mb-2 text-[10px] uppercase tracking-[0.25em]"
-  >
-    Collection
-  </motion.p>
+              <h3 className="text-3xl font-light">
+                {collection.title}
+              </h3>
 
-  <motion.h3
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{
-      duration: 0.7,
-      delay: index * 0.2 + 0.4,
-    }}
-    viewport={{ once: true }}
-    className="text-3xl font-light"
-  >
-    {collection.title}
-  </motion.h3>
-
-  <motion.p
-    initial={{
-  opacity: 0,
-  y: 30,
-  x: -20,
-}}
-    whileInView={{
-  opacity: 1,
-  y: 0,
-  x: 0,
-}}
-    transition={{
-      duration: 0.6,
-      delay: index * 0.2 + 0.55,
-    }}
-    viewport={{ once: true }}
-    className="mt-2 text-sm"
-  >
-    {collection.subtitle}
-  </motion.p>
-
-</div>
-
-    </div>
-  </motion.div>
-))}
+              <p className="mt-2 text-sm">
+                {collection.subtitle}
+              </p>
+            </div>
+          </div>
+        </motion.div>
+      ))}
     </section>
   );
 }

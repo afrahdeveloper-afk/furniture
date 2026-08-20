@@ -4,6 +4,7 @@ import {
   motion,
   useScroll,
   useTransform,
+  type MotionValue,
 } from "framer-motion";
 import { useRef } from "react";
 
@@ -86,7 +87,7 @@ function Brand({
   end,
 }: {
   brand: string;
-  scrollYProgress: any;
+  scrollYProgress: MotionValue<number>;
   start: number;
   end: number;
 }) {

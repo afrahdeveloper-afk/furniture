@@ -33,7 +33,7 @@ export default function Footer() {
             viewport={{ once: true }}
           >
             <h2 className="text-5xl font-light tracking-[-0.05em] md:text-7xl">
-              Let's create
+              Let&apos;s create
               <br />
               something timeless.
             </h2>

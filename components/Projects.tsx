@@ -4,6 +4,7 @@ import {
   motion,
   useScroll,
   useTransform,
+  type MotionValue,
 } from "framer-motion";
 import { useRef } from "react";
 
@@ -104,7 +105,7 @@ function ProjectCard({
     image: string;
   };
   index: number;
-  scrollYProgress: any;
+  scrollYProgress: MotionValue<number>;
   start: number;
   end: number;
 }) {

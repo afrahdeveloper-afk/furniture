@@ -52,8 +52,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Deploy to Vercel
-        run: npx vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      - name: Check Vercel project access
+  run: |
+    npx vercel project inspect furniture --token=${{ secrets.VERCEL_TOKEN }} --scope fafafass89-5854s-projects
+
+- name: Deploy to Vercel
+  run: npx vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
+  env:
+    VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+    VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+          

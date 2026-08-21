@@ -53,13 +53,10 @@ jobs:
         run: npm ci
 
       - name: Check Vercel project access
-  run: |
-    npx vercel project inspect furniture --token=${{ secrets.VERCEL_TOKEN }} --scope fafafass89-5854s-projects
+        run: npx vercel project inspect furniture --token="${{ secrets.VERCEL_TOKEN }}" --scope="fafafass89-5854s-projects"
 
-- name: Deploy to Vercel
-  run: npx vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
-  env:
-    VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-    VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
-          
+      - name: Deploy to Vercel
+        run: npx vercel --prod --yes --token="${{ secrets.VERCEL_TOKEN }}"
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
